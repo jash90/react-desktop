@@ -40,7 +40,7 @@ export default class CryptoCoin extends Component<{}, { cryptoRates: any[] }> {
                     {this.state.cryptoRates.map((cryptoRate: any) => {
                         return (
                             <Col>
-                                <img src={`https://cryptoicon-api.vercel.app/api/icon/${String(cryptoRate.symbol).toLowerCase()}`} width="30" height="30" />
+                                <img src={`https://cryptoicon-api.vercel.app/api/icon/${String(cryptoRate.symbol).toLowerCase()}`} alt="cryptocurrency-symbol" width="30" height="30" />
                                 <span>{cryptoRate.symbol}</span>
                                 <span>{this.formatPrice(Number(cryptoRate.price))}</span>
                             </Col>
