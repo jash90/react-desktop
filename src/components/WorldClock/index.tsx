@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { EmptyItem } from '../StyledComponent'
-import { FaClock } from 'react-icons/fa'
 import moment from 'moment-timezone';
 import styled from 'styled-components';
 import Time from './Time';

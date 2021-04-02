@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { FaClock } from 'react-icons/fa'
 import styled from 'styled-components'
 import IconTime from './IconTime'
 
