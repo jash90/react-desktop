@@ -13,7 +13,7 @@ export default class Currency extends Component<{}, { rates: any[] }> {
     }
 
     async componentDidMount() {
-        const { data } = await axios.get("http://api.nbp.pl/api/exchangerates/tables/A?format=json");
+        const { data } = await axios.get("https://api.nbp.pl/api/exchangerates/tables/A?format=json");
         const rates = data[0].rates.filter((currency: any) => this.currencies.includes(currency.code))
         this.setState({ rates });
     }
