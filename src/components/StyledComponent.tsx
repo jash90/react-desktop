@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const EmptyItem = styled.div`
- @media (max-width: 700px) {
+ @media (max-width: 900px) {
   width:100%;
  }
  width:40%;
