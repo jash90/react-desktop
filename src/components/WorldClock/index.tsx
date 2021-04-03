@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { EmptyItem } from '../StyledComponent'
+import { Contener, EmptyItem, Row } from '../StyledComponent'
 import moment from 'moment-timezone';
 import styled from 'styled-components';
 import Time from './Time';
@@ -33,17 +33,4 @@ export default class Clock extends Component<{}, { time: any }> {
     }
 }
 
-const Contener = styled(EmptyItem)`
-display:flex;
-text-transform: capitalize;
-font-family:monospace;
-font-size:14px;
-flex-direction: column;
-`
-
-const Row = styled.div`
-display:flex;
-flex:1;
-flex-direction: row;
-`
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { EmptyItem } from '../StyledComponent'
+import { Col, Contener, EmptyItem, Row } from '../StyledComponent'
 import moment from 'moment-timezone';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -51,23 +51,3 @@ export default class CryptoCoin extends Component<{}, { cryptoRates: any[] }> {
         )
     }
 }
-
-const Contener = styled(EmptyItem)`
-display:flex;
-text-transform: capitalize;
-font-family:monospace;
-font-size:14px;
-flex-direction: column;
-justify-content:space-between;
-`
-const Col = styled.div`
-display:flex;
-flex:1;
-flex-direction: column;
-justify-content:center;
-`
-const Row = styled.div`
-display:flex;
-flex:1;
-flex-direction: Row;
-`

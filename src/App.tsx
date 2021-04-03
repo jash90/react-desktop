@@ -1,6 +1,6 @@
 import React from 'react';
-import './App.css';
-import { EmptyItem, Contener } from './components/StyledComponent';
+import styled from "styled-components";
+import { EmptyItem } from './components/StyledComponent';
 import Clock from './components/WorldClock';
 import CryptoCoin from './components/CryptoCoin';
 import Currency from './components/Currency/index';
@@ -20,4 +20,14 @@ function App() {
   );
 }
 
+
+
 export default App;
+
+const Contener = styled.div`
+display:flex;
+flex-direction:row;
+flex-wrap:wrap;
+padding:16px;
+justify-content:space-evenly;
+`;

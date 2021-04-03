@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import IconTime from './IconTime'
 import styled from 'styled-components'
+import { Col } from '../StyledComponent'
 
 interface TimezoneProps{
     time:any;
@@ -22,13 +23,9 @@ export default class TimezoneItem extends Component<TimezoneProps> {
     }
 }
 
-const Contener = styled.div`
-display:flex;
-align-items:center;
-width:100px;
-flex-direction: column;
+const Contener = styled(Col)`
+height:60px;
 justify-content:space-between;
-text-align:center;
 `
 const parseTimezoneName = (timezone:string) => {
     return timezone.substring(timezone.lastIndexOf("/")+1).replace("_"," ");

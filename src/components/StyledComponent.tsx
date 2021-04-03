@@ -13,13 +13,26 @@ const EmptyItem = styled.div`
  color:white;
 `;
 
-const Contener = styled.div`
+const Contener = styled(EmptyItem)`
 display:flex;
-flex-direction:row;
+flex-direction:column;
 flex-wrap:wrap;
 padding:16px;
 justify-content:space-evenly;
 `;
 
+const Col = styled.div`
+display:flex;
+flex-direction: column;
+justify-content:center;
+align-items:center;
+margin:10px;
+`
+const Row = styled.div`
+display:flex;
+flex-direction: Row;
+flex-wrap:wrap;
+`
 
-export { EmptyItem, Contener };
+
+export { EmptyItem, Contener, Col, Row };
