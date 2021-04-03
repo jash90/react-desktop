@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import { Col } from './StyledComponent';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import styled from 'styled-components';
 
 export const PriceItem: React.FC<{ symbol: string, price: string }> = ({ symbol, price }) => {
 

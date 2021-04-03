@@ -5,7 +5,7 @@ const EmptyItem = styled.div`
   width:100%;
  }
  width:40%;
- height:200px;
+ min-height:200px;
  border-radius: 30px;
  background-color: black;
  margin:10px;
