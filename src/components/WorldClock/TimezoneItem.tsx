@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import IconTime from './IconTime'
 import styled from 'styled-components'
-import { Col } from '../StyledComponent'
+import { Col } from '../common/StyledComponent'
+import IconTime from './IconTime'
 
 interface TimezoneProps{
     time:any;

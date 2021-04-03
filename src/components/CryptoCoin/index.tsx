@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import { Col, Contener, EmptyItem, Row } from '../StyledComponent'
-import moment from 'moment-timezone';
-import styled from 'styled-components';
 import axios from 'axios';
+import moment from 'moment-timezone';
+import React, { Component } from 'react';
+import { PriceItem } from '../common/PriceItem';
+import { Contener, Row } from '../common/StyledComponent';
 import Time from '../WorldClock/Time';
 
 export default class CryptoCoin extends Component<{}, { cryptoRates: any[] }> {
@@ -24,14 +24,6 @@ export default class CryptoCoin extends Component<{}, { cryptoRates: any[] }> {
         });
     }
 
-    protected formatPrice(price: number) {
-        if (price > 100)
-            return price.toFixed(0);
-        if (price > 1)
-            return price.toFixed(2);
-        return price.toFixed(3);
-    }
-
     render() {
         return (
             <Contener>
@@ -39,11 +31,7 @@ export default class CryptoCoin extends Component<{}, { cryptoRates: any[] }> {
                 <Row>
                     {this.state.cryptoRates.map((cryptoRate: any) => {
                         return (
-                            <Col>
-                                <img src={`https://cryptoicon-api.vercel.app/api/icon/${String(cryptoRate.symbol).toLowerCase()}`} alt="cryptocurrency-symbol" width="30" height="30" />
-                                <span>{cryptoRate.symbol}</span>
-                                <span>{this.formatPrice(Number(cryptoRate.price))}</span>
-                            </Col>
+                            <PriceItem symbol={cryptoRate.symbol} price={cryptoRate.price}/>
                         )
                     })}
                 </Row>

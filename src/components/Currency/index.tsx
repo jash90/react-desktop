@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import { Col, Contener, EmptyItem, Row } from '../StyledComponent'
-import moment from 'moment-timezone';
-import styled from 'styled-components';
 import axios from 'axios';
+import moment from 'moment-timezone';
+import React, { Component } from 'react';
+import { PriceItem } from '../common/PriceItem';
+import { Contener, Row } from '../common/StyledComponent';
 import Time from '../WorldClock/Time';
 
 export default class Currency extends Component<{}, { rates: any[] }> {
@@ -25,11 +25,7 @@ export default class Currency extends Component<{}, { rates: any[] }> {
                 <Row>
                     {this.state.rates.map((currency: any) => {
                         return (
-                            <Col>
-                                <img src={`https://cryptoicon-api.vercel.app/api/icon/${String(currency.code).toLowerCase()}`} alt="currency-symbol" width="30" height="30" />
-                                <span>{currency.code}</span>
-                                <span>{Number(currency.mid).toFixed(2)}</span>
-                            </Col>
+                            <PriceItem symbol={currency.code} price={currency.mid} />
                         )
                     })}
                 </Row>

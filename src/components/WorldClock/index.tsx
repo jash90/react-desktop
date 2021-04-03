@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
-import { Contener, EmptyItem, Row } from '../StyledComponent'
 import moment from 'moment-timezone';
-import styled from 'styled-components';
+import React, { Component } from 'react';
+import { Contener, Row } from '../common/StyledComponent';
 import Time from './Time';
 import TimezoneItem from './TimezoneItem';
 
