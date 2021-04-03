@@ -1,0 +1,38 @@
+import axios from 'axios';
+import moment from 'moment-timezone';
+import React, { Component } from 'react';
+import { PriceItem } from '../common/PriceItem';
+import { Contener, Row } from '../common/StyledComponent';
+import Time from '../WorldClock/Time';
+
+
+
+export default class StockMarket extends Component<{}, { tickers: any[] }> {
+
+    state = {
+        tickers: [{ symbol: "AAPL", price: 0, name: "Apple" }, { symbol: "GOOGL", price: 0, name: "Google" }, { symbol: "TSLA", price: 0, name: "Tesla" }, { symbol: "MSFT", price: 0, name: "Microsoft" }, { symbol: "GME", price: 0, name: "GameStop" }]
+    }
+
+    async componentDidMount() {
+        let { data } = await axios.get(`http://api.marketstack.com/v1/eod/latest?access_key=c1ecbf91d6505485821fc5a818fb7b94&symbols=${this.state.tickers.map(t => t.symbol)}`);
+        data = data.data.map((stock: any) => {
+            return { symbol: String(stock.symbol).replace("USDT", ""), price: `${(stock.high + stock.low) / 2}`, name: this.state.tickers.find(t => t.symbol === stock.symbol)?.name }
+        })
+        this.setState({ tickers: data })
+    }
+
+    render() {
+        return (
+            <Contener>
+                <Time time={moment()} formatTime={'dddd HH:mm'} />
+                <Row>
+                    {this.state.tickers.map((currency: any) => {
+                        return (
+                            <PriceItem symbol={currency.symbol} price={currency.price} name={currency.name} />
+                        )
+                    })}
+                </Row>
+            </Contener>
+        )
+    }
+}

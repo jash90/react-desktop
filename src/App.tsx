@@ -4,6 +4,7 @@ import { EmptyItem } from './components/common/StyledComponent';
 import Clock from './components/WorldClock';
 import CryptoCoin from './components/CryptoCoin';
 import Currency from './components/Currency/index';
+import StockMarket from './components/StockMarket';
 
 function App() {
   return (
@@ -11,7 +12,7 @@ function App() {
       <Clock />
       <CryptoCoin />
       <Currency />
-      <EmptyItem />
+      <StockMarket />
       <EmptyItem />
       <EmptyItem />
       <EmptyItem />
