@@ -6,19 +6,23 @@ import { Contener, Row } from '../common/StyledComponent';
 import Time from '../WorldClock/Time';
 
 export default class CryptoCoin extends Component<{}, { cryptoRates: any[] }> {
-    public cryptocurrencies: string[] = ["BTCUSDT", "ETHUSDT", "XLMUSDT", "DOTUSDT", "REEFUSDT", "AKROUSDT", "DOGEUSDT", "LUNAUSDT", "CELRUSDT"]
+
     state = {
-        cryptoRates: []
+        cryptoRates: [{ symbol: "BTC", price: 0 }, { symbol: "ETH", price: 0 }, { symbol: "XLM", price: 0 }, { symbol: "DOT", price: 0 }, { symbol: "REEF", price: 0 }, { symbol: "AKRO", price: 0 }, { symbol: "DOGE", price: 0 }, { symbol: "LUNA", price: 0 }, { symbol: "CELR", price: 0 }]
     }
 
     async componentDidMount() {
-        const { data } = await axios.get("https://api.binance.com/api/v3/ticker/price");
-        this.cryptocurrencies.forEach(crypto => {
-            const cryptoPrice = data.find((cryptoRate: any) => cryptoRate.symbol === crypto)
+        let { data } = await axios.get("https://api.binance.com/api/v3/ticker/price");
+        data = data.map((crypto: any) => {
+            return { symbol: String(crypto.symbol).replace("USDT", ""), price: crypto.price }
+        })
+        const cryptoRates: any[] = this.state.cryptoRates;
+        cryptoRates.forEach((crypto: any) => {
+            const cryptoPrice = data.find((cryptoRate: any) => {
+                return cryptoRate.symbol === crypto.symbol
+            });
             if (cryptoPrice) {
-                cryptoPrice.symbol = cryptoPrice.symbol.replace("USDT", "");
-                const cryptoRates: any[] = this.state.cryptoRates;
-                cryptoRates.push(cryptoPrice);
+                crypto.price = cryptoPrice.price;
                 this.setState({ cryptoRates });
             }
         });
@@ -27,11 +31,11 @@ export default class CryptoCoin extends Component<{}, { cryptoRates: any[] }> {
     render() {
         return (
             <Contener>
-                <Time time={moment()} formatTime={'dddd HH:mm'}/>
+                <Time time={moment()} formatTime={'dddd HH:mm'} />
                 <Row>
                     {this.state.cryptoRates.map((cryptoRate: any) => {
                         return (
-                            <PriceItem symbol={cryptoRate.symbol} price={cryptoRate.price}/>
+                            <PriceItem symbol={cryptoRate.symbol} price={cryptoRate.price} />
                         )
                     })}
                 </Row>

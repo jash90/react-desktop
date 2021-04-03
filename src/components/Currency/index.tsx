@@ -6,15 +6,14 @@ import { Contener, Row } from '../common/StyledComponent';
 import Time from '../WorldClock/Time';
 
 export default class Currency extends Component<{}, { rates: any[] }> {
-    public currencies: string[] = ["USD", "EUR", "CHF", "GBP", "JPY", "CNY"]
 
     state = {
-        rates: []
+        rates: [{code:"USD",mid:0}, {code:"EUR",mid:0}, {code:"CHF",mid:0}, {code:"GBP",mid:0}, {code:"JPY",mid:0}, {code:"CNY",mid:0},]
     }
 
     async componentDidMount() {
         const { data } = await axios.get("https://api.nbp.pl/api/exchangerates/tables/A?format=json");
-        const rates = data[0].rates.filter((currency: any) => this.currencies.includes(currency.code))
+        const rates = data[0].rates.filter((currency: any) => this.state.rates.map((rate:any)=> rate.code).includes(currency.code))
         this.setState({ rates });
     }
 
