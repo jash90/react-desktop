@@ -1,6 +1,7 @@
 import axios from 'axios';
 import moment from 'moment-timezone';
 import React, { Component } from 'react';
+import { CRYPTO_CURRENCY_URL } from '../../utils/Const';
 import { PriceItem } from '../common/PriceItem';
 import { Contener, Row } from '../common/StyledComponent';
 import Time from '../WorldClock/Time';
@@ -12,7 +13,7 @@ export default class CryptoCoin extends Component<{}, { cryptoRates: any[] }> {
     }
 
     async componentDidMount() {
-        let { data } = await axios.get("https://api.binance.com/api/v3/ticker/price");
+        let { data } = await axios.get(`${CRYPTO_CURRENCY_URL}`);
         data = data.map((crypto: any) => {
             return { symbol: String(crypto.symbol).replace("USDT", ""), price: crypto.price }
         })
