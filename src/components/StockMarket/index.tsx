@@ -14,7 +14,6 @@ export default class StockMarket extends Component<{}, { tickers: any[] }> {
 
     async componentDidMount() {
         try {
-            console.log(process.env)
             let { data } = await axios.get(`${MARKET_STOCK_URL}${(this.state.tickers.map(t => t.symbol)).join(",")}?apikey=${process.env.REACT_APP_MARKET_STOCK_API_KEY}`);
             data = data.map((stock: any) => {
                 return { symbol: stock.symbol, price: stock.price, name: this.state.tickers.find(t => t.symbol === stock.symbol)?.name }
