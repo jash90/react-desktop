@@ -15,11 +15,15 @@ export default class StockMarket extends Component<{}, { tickers: any[] }> {
     }
 
     async componentDidMount() {
-        let { data } = await axios.get(`${MARKET_STOCK_URL}${this.state.tickers.map(t => t.symbol)}`);
-        data = data.data.map((stock: any) => {
-            return { symbol: String(stock.symbol).replace("USDT", ""), price: `${(stock.high + stock.low) / 2}`, name: this.state.tickers.find(t => t.symbol === stock.symbol)?.name }
-        })
-        this.setState({ tickers: data })
+        try {
+            let { data } = await axios.get(`${MARKET_STOCK_URL}${this.state.tickers.map(t => t.symbol)}`);
+            data = data.data.map((stock: any) => {
+                return { symbol: String(stock.symbol).replace("USDT", ""), price: `${(stock.high + stock.low) / 2}`, name: this.state.tickers.find(t => t.symbol === stock.symbol)?.name }
+            })
+            this.setState({ tickers: data })
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     render() {
