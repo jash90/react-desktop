@@ -1,20 +1,23 @@
 import axios from 'axios';
 import moment from 'moment-timezone';
 import React, { Component } from 'react';
+import { CurrencyModel, DefaultCurrencyModel } from '../../models';
 import { CURRENCY_URL } from '../../utils/Const';
 import { PriceItem } from '../common/PriceItem';
 import { Contener, Row } from '../common/StyledComponent';
 import Time from '../WorldClock/Time';
 
-export default class Currency extends Component<{}, { rates: any[] }> {
+export default class Currency extends Component<{}, { rates: DefaultCurrencyModel[] }> {
 
     state = {
-        rates: [{ code: "USD", mid: 0 }, { code: "EUR", mid: 0 }, { code: "CHF", mid: 0 }, { code: "GBP", mid: 0 }, { code: "JPY", mid: 0 }, { code: "CNY", mid: 0 },]
+        rates: [{ symbol: "USD", price: 0 }, { symbol: "EUR", price: 0 }, { symbol: "CHF", price: 0 }, { symbol: "GBP", price: 0 }, { symbol: "JPY", price: 0 }, { symbol: "CNY", price: 0 },]
     }
 
     async componentDidMount() {
         const { data } = await axios.get(`${CURRENCY_URL}`);
-        const rates = data[0].rates.filter((currency: any) => this.state.rates.map((rate: any) => rate.code).includes(currency.code))
+        const rates = (data[0].rates.filter((currency: CurrencyModel) => this.state.rates.map((rate: DefaultCurrencyModel) => rate.symbol).includes(currency.code))).map((currency: CurrencyModel) => {
+            return { symbol: currency.code, price: currency.mid }
+        })
         this.setState({ rates });
     }
 
@@ -23,9 +26,9 @@ export default class Currency extends Component<{}, { rates: any[] }> {
             <Contener>
                 <Time time={moment()} formatTime={'dddd HH:mm'} />
                 <Row>
-                    {this.state.rates.map((currency: any) => {
+                    {this.state.rates.map((currency: DefaultCurrencyModel) => {
                         return (
-                            <PriceItem symbol={currency.code} price={currency.mid} />
+                            <PriceItem symbol={currency.symbol} price={currency.price} />
                         )
                     })}
                 </Row>

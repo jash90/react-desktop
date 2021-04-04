@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { Col } from './StyledComponent';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-export const PriceItem: React.FC<{ symbol: string, price: string, name?: string }> = ({ symbol, price, name }) => {
+export const PriceItem: React.FC<{ symbol: string, price: number, name?: string }> = ({ symbol, price, name }) => {
 
     const formatPrice = useCallback((price: number) => {
         if (price > 100)
