@@ -17,16 +17,7 @@ export default class CryptoCoin extends Component<{}, { cryptoRates: any[] }> {
         data = data.map((crypto: any) => {
             return { symbol: String(crypto.symbol).replace("USDT", ""), price: crypto.price }
         })
-        const cryptoRates: any[] = this.state.cryptoRates;
-        cryptoRates.forEach((crypto: any) => {
-            const cryptoPrice = data.find((cryptoRate: any) => {
-                return cryptoRate.symbol === crypto.symbol
-            });
-            if (cryptoPrice) {
-                crypto.price = cryptoPrice.price;
-                this.setState({ cryptoRates });
-            }
-        });
+        this.setState({ cryptoRates: data.filter((crypto: any) => this.state.cryptoRates.map((rate: any) => rate.symbol).includes(crypto.symbol)) });
     }
 
     render() {
