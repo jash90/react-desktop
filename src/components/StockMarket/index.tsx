@@ -1,7 +1,7 @@
 import axios from 'axios';
 import moment from 'moment-timezone';
 import React, { Component } from 'react';
-import { MARKET_STOCK_URL } from '../../utils/Const';
+import { MARKET_STOCK_URL, MARKET_STOCK_API_KEY } from '../../utils/Const';
 import { PriceItem } from '../common/PriceItem';
 import { Contener, Row } from '../common/StyledComponent';
 import Time from '../WorldClock/Time';
@@ -16,9 +16,9 @@ export default class StockMarket extends Component<{}, { tickers: any[] }> {
 
     async componentDidMount() {
         try {
-            let { data } = await axios.get(`${MARKET_STOCK_URL}${this.state.tickers.map(t => t.symbol)}`);
-            data = data.data.map((stock: any) => {
-                return { symbol: String(stock.symbol).replace("USDT", ""), price: `${(stock.high + stock.low) / 2}`, name: this.state.tickers.find(t => t.symbol === stock.symbol)?.name }
+            let { data } = await axios.get(`${MARKET_STOCK_URL}${(this.state.tickers.map(t => t.symbol)).join(",")}?apikey=${MARKET_STOCK_API_KEY}`);
+            data = data.map((stock: any) => {
+                return { symbol: stock.symbol, price: stock.price, name: this.state.tickers.find(t => t.symbol === stock.symbol)?.name }
             })
             this.setState({ tickers: data })
         } catch (err) {
