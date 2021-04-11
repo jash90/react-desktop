@@ -1,8 +1,6 @@
-import axios from 'axios';
 import moment from 'moment-timezone';
 import React, { Component } from 'react';
-import { CurrencyModel, DefaultCurrencyModel } from '../../models';
-import { CURRENCY_URL } from '../../utils/Const';
+import { DefaultCurrencyModel } from '../../models';
 import { PriceItem } from '../common/PriceItem';
 import { Container, Row } from '../common/StyledComponent';
 import Time from '../WorldClock/Time';

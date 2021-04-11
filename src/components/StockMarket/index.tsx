@@ -1,8 +1,6 @@
-import axios from 'axios';
 import moment from 'moment-timezone';
 import React, { Component } from 'react';
-import { DefaultCurrencyModel, StockMarketModel } from '../../models';
-import { MARKET_STOCK_URL } from '../../utils/Const';
+import { StockMarketModel } from '../../models';
 import { PriceItem } from '../common/PriceItem';
 import { Container, Row } from '../common/StyledComponent';
 import { HttpService } from '../../services/api';
