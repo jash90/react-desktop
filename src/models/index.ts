@@ -1,13 +1,13 @@
 export interface CurrencyModel {
-    mid:number;
-    code:string;
+    mid: number;
+    code: string;
 }
 
 export interface DefaultCurrencyModel {
-    price:number;
-    symbol:string;
+    price: number;
+    symbol: string;
 }
 
-export interface StockMarketModel extends DefaultCurrencyModel{
-    name:string;
+export interface StockMarketModel extends DefaultCurrencyModel {
+    name: string;
 }

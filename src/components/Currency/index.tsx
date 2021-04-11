@@ -4,8 +4,10 @@ import React, { Component } from 'react';
 import { CurrencyModel, DefaultCurrencyModel } from '../../models';
 import { CURRENCY_URL } from '../../utils/Const';
 import { PriceItem } from '../common/PriceItem';
-import { Contener, Row } from '../common/StyledComponent';
+import { Container, Row } from '../common/StyledComponent';
 import Time from '../WorldClock/Time';
+import { HttpService } from '../../services/api/index';
+import { EmptyComponent } from '../common/EmptyComponent';
 
 export default class Currency extends Component<{}, { rates: DefaultCurrencyModel[] }> {
 
@@ -14,25 +16,23 @@ export default class Currency extends Component<{}, { rates: DefaultCurrencyMode
     }
 
     async componentDidMount() {
-        const { data } = await axios.get(`${CURRENCY_URL}`);
-        const rates = (data[0].rates.filter((currency: CurrencyModel) => this.state.rates.map((rate: DefaultCurrencyModel) => rate.symbol).includes(currency.code))).map((currency: CurrencyModel) => {
-            return { symbol: currency.code, price: currency.mid }
-        })
+        const rates = await HttpService.getCurrenciesPrices(this.state.rates);
         this.setState({ rates });
     }
 
     render() {
         return (
-            <Contener>
+            <Container>
                 <Time time={moment()} formatTime={'dddd HH:mm'} />
                 <Row>
-                    {this.state.rates.map((currency: DefaultCurrencyModel) => {
+                    {this.state.rates.length > 0 && this.state.rates.map((currency: DefaultCurrencyModel) => {
                         return (
                             <PriceItem symbol={currency.symbol} price={currency.price} />
                         )
                     })}
+                    {this.state.rates.length === 0 && <EmptyComponent />}
                 </Row>
-            </Contener>
+            </Container>
         )
     }
 }

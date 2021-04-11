@@ -4,23 +4,23 @@ import IconTime from './IconTime'
 
 interface TimeProps {
     time: any
-    formatTime?:string
+    formatTime?: string
 }
 
 export default class Time extends Component<TimeProps> {
     render() {
         return (
-            <ContenerDateTime>
+            <ContainerDateTime>
                 {this.props.time.format('DD.MM.YYYY')}
                 <IconTime>
                     {this.props.time.format(this.props.formatTime ? this.props.formatTime : 'dddd HH:mm:ss')}
                 </IconTime>
-            </ContenerDateTime>
+            </ContainerDateTime>
         )
     }
 }
 
-const ContenerDateTime = styled.div`
+const ContainerDateTime = styled.div`
 display:flex;
 flex:1;
 justify-content:flex-end;

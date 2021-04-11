@@ -1,11 +1,11 @@
-import axios from 'axios';
 import moment from 'moment-timezone';
 import React, { Component } from 'react';
 import { DefaultCurrencyModel } from '../../models';
-import { CRYPTO_CURRENCY_URL } from '../../utils/Const';
 import { PriceItem } from '../common/PriceItem';
-import { Contener, Row } from '../common/StyledComponent';
+import { Container, Row } from '../common/StyledComponent';
+import { HttpService } from '../../services/api';
 import Time from '../WorldClock/Time';
+import { EmptyComponent } from '../common/EmptyComponent';
 
 export default class CryptoCoin extends Component<{}, { cryptoRates: DefaultCurrencyModel[] }> {
 
@@ -14,25 +14,23 @@ export default class CryptoCoin extends Component<{}, { cryptoRates: DefaultCurr
     }
 
     async componentDidMount() {
-        let { data } = await axios.get(`${CRYPTO_CURRENCY_URL}`);
-        data = data.map((crypto: DefaultCurrencyModel) => {
-            return { symbol: String(crypto.symbol).replace("USDT", ""), price: crypto.price }
-        })
-        this.setState({ cryptoRates: data.filter((crypto: DefaultCurrencyModel) => this.state.cryptoRates.map((rate: DefaultCurrencyModel) => rate.symbol).includes(crypto.symbol)) });
+        const cryptoRates = await HttpService.getCryptoCurrenciesPrices(this.state.cryptoRates);
+        this.setState({ cryptoRates });
     }
 
     render() {
         return (
-            <Contener>
+            <Container>
                 <Time time={moment()} formatTime={'dddd HH:mm'} />
                 <Row>
-                    {this.state.cryptoRates.map((cryptoRate: DefaultCurrencyModel) => {
+                    {this.state.cryptoRates.length > 0 && this.state.cryptoRates.map((cryptoRate: DefaultCurrencyModel) => {
                         return (
                             <PriceItem symbol={cryptoRate.symbol} price={cryptoRate.price} />
                         )
                     })}
+                    {this.state.cryptoRates.length === 0 && <EmptyComponent />}
                 </Row>
-            </Contener>
+            </Container>
         )
     }
 }

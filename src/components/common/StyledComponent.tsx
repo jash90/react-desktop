@@ -13,7 +13,7 @@ const EmptyItem = styled.div`
  color:white;
 `;
 
-const Contener = styled(EmptyItem)`
+const Container = styled(EmptyItem)`
 display:flex;
 flex-direction:column;
 flex-wrap:wrap;
@@ -35,4 +35,4 @@ flex-wrap:wrap;
 `
 
 
-export { EmptyItem, Contener, Col, Row };
+export { EmptyItem, Container, Col, Row };

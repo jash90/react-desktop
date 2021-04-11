@@ -4,8 +4,10 @@ import React, { Component } from 'react';
 import { DefaultCurrencyModel, StockMarketModel } from '../../models';
 import { MARKET_STOCK_URL } from '../../utils/Const';
 import { PriceItem } from '../common/PriceItem';
-import { Contener, Row } from '../common/StyledComponent';
+import { Container, Row } from '../common/StyledComponent';
+import { HttpService } from '../../services/api';
 import Time from '../WorldClock/Time';
+import { EmptyComponent } from '../common/EmptyComponent';
 
 export default class StockMarket extends Component<{}, { tickers: StockMarketModel[] }> {
 
@@ -14,25 +16,23 @@ export default class StockMarket extends Component<{}, { tickers: StockMarketMod
     }
 
     async componentDidMount() {
-        let { data } = await axios.get(`${MARKET_STOCK_URL}${(this.state.tickers.map(t => t.symbol)).join(",")}?apikey=${process.env.REACT_APP_MARKET_STOCK_API_KEY}`);
-        data = data.map((stock: DefaultCurrencyModel) => {
-            return { symbol: stock.symbol, price: stock.price, name: this.state.tickers.find((t:StockMarketModel) => t.symbol === stock.symbol)?.name }
-        })
-        this.setState({ tickers: data });
+        const tickers = await HttpService.getStockMarketPrices(this.state.tickers);
+        this.setState({ tickers });
     }
 
     render() {
         return (
-            <Contener>
+            <Container>
                 <Time time={moment()} formatTime={'dddd HH:mm'} />
                 <Row>
-                    {this.state.tickers.map((currency: StockMarketModel) => {
+                    {this.state.tickers.length > 0 && this.state.tickers.map((currency: StockMarketModel) => {
                         return (
                             <PriceItem symbol={currency.symbol} price={currency.price} name={currency.name} />
                         )
                     })}
+                    {this.state.tickers.length === 0 && <EmptyComponent />}
                 </Row>
-            </Contener>
+            </Container>
         )
     }
 }

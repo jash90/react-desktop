@@ -5,10 +5,12 @@ import Clock from './components/WorldClock';
 import CryptoCoin from './components/CryptoCoin';
 import Currency from './components/Currency/index';
 import StockMarket from './components/StockMarket';
+import { FirebaseService } from './services/firebase/index';
 
 function App() {
+  FirebaseService.init();
   return (
-    <Contener>
+    <Container>
       <Clock />
       <CryptoCoin />
       <Currency />
@@ -17,7 +19,7 @@ function App() {
       <EmptyItem />
       <EmptyItem />
       <EmptyItem />
-    </Contener>
+    </Container>
   );
 }
 
@@ -25,7 +27,7 @@ function App() {
 
 export default App;
 
-const Contener = styled.div`
+const Container = styled.div`
 display:flex;
 flex-direction:row;
 flex-wrap:wrap;

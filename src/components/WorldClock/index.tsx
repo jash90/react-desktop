@@ -1,6 +1,6 @@
 import moment from 'moment-timezone';
 import React, { Component } from 'react';
-import { Contener, Row } from '../common/StyledComponent';
+import { Container, Row } from '../common/StyledComponent';
 import Time from './Time';
 import TimezoneItem from './TimezoneItem';
 
@@ -22,12 +22,12 @@ export default class Clock extends Component<{}, { time: any }> {
 
     render() {
         return (
-            <Contener>
+            <Container>
                 <Time time={this.state.time} />
                 <Row>
                     {this.timezones.map((timezone: any) => <TimezoneItem time={this.state.time} timezone={timezone} />)}
                 </Row>
-            </Contener>
+            </Container>
         )
     }
 }
