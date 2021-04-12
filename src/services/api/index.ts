@@ -4,95 +4,76 @@ import { FirebaseService } from "../firebase";
 import { CRYPTOCURRENCIES_CONTAINER, CRYPTO_CURRENCY_URL, CURRENCIES_CONTAINER, CURRENCY_URL, MARKET_STOCK_URL, REFRESH_TIME, STOCK_MARKET_CONTAINER } from "../../utils/Const";
 
 export class HttpService {
-    public static async getCryptoCurrenciesPrices(cryptoList: DefaultCurrencyModel[]) {
-        let data: any = [];
-        try {
-            let lastData = await FirebaseService.downloadLatestData(CRYPTOCURRENCIES_CONTAINER);
-
-            if (!lastData.sendDate || Date.now() - lastData.sendDate > REFRESH_TIME) {
-
-                const response = await axios.get(`${CRYPTO_CURRENCY_URL}`);
-
-                await FirebaseService.cacheData(CRYPTOCURRENCIES_CONTAINER, { data: response.data, sendDate: Date.now() });
-
-                data = response.data;
-
-            } else {
-                data = lastData.data;
-            }
-
-            data = data.map((crypto: DefaultCurrencyModel) => {
-                return { symbol: String(crypto.symbol).replace("USDT", ""), price: crypto.price }
-            }).filter((crypto: DefaultCurrencyModel) => !!cryptoList.find(c => c.symbol === crypto.symbol))
-
-        } catch (error) {
-            console.log({ error })
-            data = [];
-        }
-
-        return data;
+    public static async getCryptoCurrenciesPrices(cryptocurrenciesList: DefaultCurrencyModel[]) {
+        return await HttpService.getPrices(CRYPTOCURRENCIES_CONTAINER, CRYPTO_CURRENCY_URL, HttpService.filterCryptoCurrencies, cryptocurrenciesList);
     }
 
     public static async getCurrenciesPrices(currenciesList: DefaultCurrencyModel[]) {
-        let data: any = [];
+        return await HttpService.getPrices(CURRENCIES_CONTAINER, CURRENCY_URL, HttpService.filterCurrencies, currenciesList, HttpService.formatResponseCurrencies);
+    }
+
+
+    public static async getStockMarketPrices(stockMarketList: StockMarketModel[]) {
+        return await HttpService.getPrices(STOCK_MARKET_CONTAINER, `${MARKET_STOCK_URL}?apikey=${process.env.REACT_APP_MARKET_STOCK_API_KEY}`, HttpService.filterStockMarket, stockMarketList, HttpService.formatStockMarket);
+    }
+
+    public static async getPrices(firestoreContainer: string, url: string, filterFunction: any, filterArray: any[], formatResponse?: any) {
+        let data: any = { data: [], sendDate: Date.now() };
         try {
-            let lastData = await FirebaseService.downloadLatestData(CURRENCIES_CONTAINER);
+            let lastData = await FirebaseService.downloadLatestData(firestoreContainer);
 
             if (!lastData.sendDate || Date.now() - lastData.sendDate > REFRESH_TIME) {
 
-                const response = await axios.get(`${CURRENCY_URL}`);
+                const response = await axios.get(`${url}`);
 
-                data = response.data[0].rates.map((currency: CurrencyModel) => {
-                    return { symbol: currency.code, price: currency.mid }
-                })
+                if (formatResponse) {
+                    data.data = formatResponse(response.data);
+                } else {
+                    data.data = response.data;
+                }
 
-                await FirebaseService.cacheData(CURRENCIES_CONTAINER, { data, sendDate: Date.now() });
+                console.log(response);
+
+                await FirebaseService.cacheData(firestoreContainer, data);
 
             } else {
-                data = lastData.data;
+                data = lastData;
             }
 
-            data = data.filter((currency: DefaultCurrencyModel) => !!currenciesList.find(c => c.symbol === currency.symbol));
+            data.data = filterFunction(data.data, filterArray);
+
         } catch (error) {
-            console.log({ error })
-            data = [];
+            console.log({  firestoreContainer })
         }
 
         return data;
     }
 
-
-    public static async getStockMarketPrices(tickersList: StockMarketModel[]) {
-        let data: any = [];
-        try {
-
-            let lastData = await FirebaseService.downloadLatestData(STOCK_MARKET_CONTAINER);
-
-            if (!lastData.sendDate || Date.now() - lastData.sendDate > REFRESH_TIME) {
-
-                const response = await axios.get(`${MARKET_STOCK_URL}?apikey=${process.env.REACT_APP_MARKET_STOCK_API_KEY}`);
-
-                data = response.data;
-
-                data = data.filter((item:any, index:number)=> index < 10000);
-
-                await FirebaseService.cacheData(STOCK_MARKET_CONTAINER, { data, sendDate: Date.now() });
-
-            } else {
-                data = lastData.data;
-            }
-
-            data = data.filter((t: StockMarketModel) => !!tickersList.find(ticker => ticker.symbol === t.symbol)).map((ticker: StockMarketModel) =>{
-                return {symbol:ticker.symbol, price:ticker.price, name: tickersList.find(t => t.symbol === ticker.symbol)?.name};
-            })
-
-        } catch (error) {
-            console.log({ error })
-            data = [];
-        }
-
-        return data;
+    private static filterCryptoCurrencies(cryptocurrenciesList: DefaultCurrencyModel[], filterCryptocurrenciesList: DefaultCurrencyModel[]) {
+        return cryptocurrenciesList.map((crypto: DefaultCurrencyModel) => {
+            return { symbol: String(crypto.symbol).replace("USDT", ""), price: crypto.price }
+        }).filter((crypto: DefaultCurrencyModel) => !!filterCryptocurrenciesList.find(c => c.symbol === crypto.symbol))
     }
 
+    private static filterCurrencies(currencies: DefaultCurrencyModel[], filterCurrencies: DefaultCurrencyModel[]) {
+        return currencies.filter((currency: DefaultCurrencyModel) => !!filterCurrencies.find(c => c.symbol === currency.symbol));
+    }
+
+    private static filterStockMarket(stockMarket: StockMarketModel[], filterStockMarket: StockMarketModel[]) {
+        console.log(filterStockMarket);
+        return stockMarket.filter((t: StockMarketModel) => !!filterStockMarket.find(ticker => ticker.symbol === t.symbol)).map((ticker: StockMarketModel) => {
+            return { symbol: ticker.symbol, price: ticker.price, name: filterStockMarket.find(t => t.symbol === ticker.symbol)?.name };
+        })
+    }
+
+    private static formatResponseCurrencies(data: any) {
+        return data[0].rates.map((currency: CurrencyModel) => {
+            return { symbol: currency.code, price: currency.mid }
+        })
+    }
+
+    private static formatStockMarket(data: any) {
+        return data.filter((item: any, index: number) => index < 10000);
+    }
 
 }
