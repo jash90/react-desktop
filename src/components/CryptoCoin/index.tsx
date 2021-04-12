@@ -25,7 +25,7 @@ export default class CryptoCoin extends Component<{}, { cryptoRates: DefaultCurr
                 <Row>
                     {this.state.cryptoRates.length > 0 && this.state.cryptoRates.map((cryptoRate: DefaultCurrencyModel) => {
                         return (
-                            <PriceItem symbol={cryptoRate.symbol} price={cryptoRate.price} />
+                            <PriceItem symbol={cryptoRate.symbol} price={cryptoRate.price} key={cryptoRate.symbol} />
                         )
                     })}
                     {this.state.cryptoRates.length === 0 && <EmptyComponent />}

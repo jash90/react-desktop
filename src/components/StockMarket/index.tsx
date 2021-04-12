@@ -25,7 +25,7 @@ export default class StockMarket extends Component<{}, { tickers: StockMarketMod
                 <Row>
                     {this.state.tickers.length > 0 && this.state.tickers.map((currency: StockMarketModel) => {
                         return (
-                            <PriceItem symbol={currency.symbol} price={currency.price} name={currency.name} />
+                            <PriceItem symbol={currency.symbol} price={currency.price} name={currency.name} key={currency.symbol} />
                         )
                     })}
                     {this.state.tickers.length === 0 && <EmptyComponent />}

@@ -25,7 +25,7 @@ export default class Currency extends Component<{}, { rates: DefaultCurrencyMode
                 <Row>
                     {this.state.rates.length > 0 && this.state.rates.map((currency: DefaultCurrencyModel) => {
                         return (
-                            <PriceItem symbol={currency.symbol} price={currency.price} />
+                            <PriceItem symbol={currency.symbol} price={currency.price} key={currency.symbol} />
                         )
                     })}
                     {this.state.rates.length === 0 && <EmptyComponent />}

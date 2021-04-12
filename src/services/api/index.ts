@@ -74,13 +74,17 @@ export class HttpService {
 
                 data = response.data;
 
+                data = data.filter((item:any, index:number)=> index < 10000);
+
                 await FirebaseService.cacheData(STOCK_MARKET_CONTAINER, { data, sendDate: Date.now() });
 
             } else {
                 data = lastData.data;
             }
 
-            data = data.filter((t: StockMarketModel) => !!tickersList.find(ticker => ticker.symbol === t.symbol));
+            data = data.filter((t: StockMarketModel) => !!tickersList.find(ticker => ticker.symbol === t.symbol)).map((ticker: StockMarketModel) =>{
+                return {symbol:ticker.symbol, price:ticker.price, name: tickersList.find(t => t.symbol === ticker.symbol)?.name};
+            })
 
         } catch (error) {
             console.log({ error })
