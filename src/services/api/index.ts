@@ -32,8 +32,6 @@ export class HttpService {
                     data.data = response.data;
                 }
 
-                console.log(response);
-
                 await FirebaseService.cacheData(firestoreContainer, data);
 
             } else {
@@ -60,7 +58,6 @@ export class HttpService {
     }
 
     private static filterStockMarket(stockMarket: StockMarketModel[], filterStockMarket: StockMarketModel[]) {
-        console.log(filterStockMarket);
         return stockMarket.filter((t: StockMarketModel) => !!filterStockMarket.find(ticker => ticker.symbol === t.symbol)).map((ticker: StockMarketModel) => {
             return { symbol: ticker.symbol, price: ticker.price, name: filterStockMarket.find(t => t.symbol === ticker.symbol)?.name };
         })
