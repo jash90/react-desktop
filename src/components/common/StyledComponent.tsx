@@ -26,6 +26,8 @@ display:flex;
 flex-direction: column;
 justify-content:center;
 align-items:center;
+max-width:250px;
+max-height:100px;
 margin:10px;
 `
 const Row = styled.div`

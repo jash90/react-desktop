@@ -5,6 +5,7 @@ import CryptoCurrency from './components/CryptoCurrency';
 import Currency from './components/Currency/index';
 import StockMarket from './components/StockMarket';
 import { FirebaseService } from './services/firebase/index';
+import ETF from './components/ETF';
 
 function App() {
   FirebaseService.init();
@@ -13,7 +14,7 @@ function App() {
       <CryptoCurrency />
       <Currency />
       <StockMarket />
-      <EmptyItem />
+      <ETF />
       <EmptyItem />
       <EmptyItem />
       <EmptyItem />
