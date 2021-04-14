@@ -7,7 +7,7 @@ import { HttpService } from '../../services/api';
 import Time from '../WorldClock/Time';
 import { EmptyComponent } from '../common/EmptyComponent';
 
-export default class CryptoCoin extends Component<{}, { cryptoRates: DefaultCurrencyModel[], sendDate: number }> {
+export default class CryptoCurrency extends Component<{}, { cryptoRates: DefaultCurrencyModel[], sendDate: number }> {
 
     state = {
         cryptoRates: [{ symbol: "BTC", price: 0 }, { symbol: "ETH", price: 0 }, { symbol: "XLM", price: 0 }, { symbol: "DOT", price: 0 }, { symbol: "REEF", price: 0 }, { symbol: "AKRO", price: 0 }, { symbol: "DOGE", price: 0 }, { symbol: "LUNA", price: 0 }, { symbol: "CELR", price: 0 }],
