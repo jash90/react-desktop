@@ -1,6 +1,6 @@
 import moment from 'moment-timezone';
 import React, { Component } from 'react';
-import { DefaultCurrencyModel, StockMarketModel } from '../../models';
+import { StockMarketModel } from '../../models';
 import { PriceItem } from '../common/PriceItem';
 import { Container, Row } from '../common/StyledComponent';
 import Time from '../WorldClock/Time';
