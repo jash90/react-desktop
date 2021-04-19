@@ -16,7 +16,7 @@ export default class Currency extends Component<{}, { rates: DefaultCurrencyMode
 
     async componentDidMount() {
         const rates = await HttpService.getCurrenciesPrices(this.state.rates);
-        this.setState({ rates : rates.data, sendDate: rates.sendDate });
+        this.setState({ rates: rates.data, sendDate: rates.sendDate });
     }
 
     render() {
@@ -26,7 +26,7 @@ export default class Currency extends Component<{}, { rates: DefaultCurrencyMode
                 <Row>
                     {this.state.rates.length > 0 && this.state.rates.map((currency: DefaultCurrencyModel) => {
                         return (
-                            <PriceItem symbol={currency.symbol} price={currency.price} key={currency.symbol} />
+                            <PriceItem {...currency} key={currency.symbol} />
                         )
                     })}
                     {this.state.rates.length === 0 && <EmptyComponent />}

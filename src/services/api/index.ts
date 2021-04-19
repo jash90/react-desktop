@@ -1,4 +1,4 @@
-import { CurrencyModel, DefaultCurrencyModel, StockMarketModel } from "../../models";
+import { CurrencyModel, DefaultCurrencyModel, ETFModel, StockMarketModel } from "../../models";
 import axios from 'axios';
 import { FirebaseService } from "../firebase";
 import { CRYPTOCURRENCIES_CONTAINER, CRYPTO_CURRENCY_URL, CURRENCIES_CONTAINER, CURRENCY_URL, ETF_CONTAINER, ETF_URL, MARKET_STOCK_URL, REFRESH_TIME, STOCK_MARKET_CONTAINER } from "../../utils/Const";
@@ -17,8 +17,8 @@ export class HttpService {
         return await HttpService.getPrices(STOCK_MARKET_CONTAINER, `${MARKET_STOCK_URL}?apikey=${process.env.REACT_APP_MARKET_STOCK_API_KEY}`, HttpService.filterStockMarket, stockMarketList, HttpService.formatStockMarket);
     }
 
-    public static async getETFPrices(etfList: StockMarketModel[]) {
-        return await HttpService.getPrices(ETF_CONTAINER, `${ETF_URL}?apikey=${process.env.REACT_APP_MARKET_STOCK_API_KEY}`, HttpService.filterStockMarket, etfList);
+    public static async getETFPrices(etfList: ETFModel[]) {
+        return await HttpService.getPrices(ETF_CONTAINER, `${ETF_URL}?apikey=${process.env.REACT_APP_MARKET_STOCK_API_KEY}`, HttpService.filterETFMarket, etfList);
     }
 
     public static async getPrices(firestoreContainer: string, url: string, filterFunction: any, filterArray: any[], formatResponse?: any) {
@@ -64,6 +64,13 @@ export class HttpService {
     private static filterStockMarket(stockMarket: StockMarketModel[], filterStockMarket: StockMarketModel[]) {
         return stockMarket.filter((t: StockMarketModel) => !!filterStockMarket.find(ticker => ticker.symbol === t.symbol)).map((ticker: StockMarketModel) => {
             return { symbol: ticker.symbol, price: ticker.price, name: filterStockMarket.find(t => t.symbol === ticker.symbol)?.name };
+        })
+    }
+
+    private static filterETFMarket(stockMarket: ETFModel[], filterStockMarket: ETFModel[]) {
+        return stockMarket.filter((t: ETFModel) => !!filterStockMarket.find(ticker => ticker.symbol === t.symbol)).map((ticker: ETFModel) => {
+            const {name , ...etf} =ticker;
+            return { name: filterStockMarket.find(t => t.symbol === ticker.symbol)?.name, ...etf };
         })
     }
 

@@ -11,3 +11,7 @@ export interface DefaultCurrencyModel {
 export interface StockMarketModel extends DefaultCurrencyModel {
     name: string;
 }
+
+export interface ETFModel extends StockMarketModel {
+    changesPercentage?: number;
+}
