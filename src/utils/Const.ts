@@ -4,7 +4,9 @@ export const CURRENCY_URL = "https://api.nbp.pl/api/exchangerates/tables/A/?form
 export const CRYPTO_CURRENCY_URL = "https://api.binance.com/api/v1/ticker/24hr";
 export const ETF_URL = "https://financialmodelingprep.com/api/v3/quotes/etf";
 
-export const REFRESH_TIME = 3600000;
+//refreshTime
+export const REFRESH_TIME_60_MIN = 3600000;
+export const REFRESH_TIME_5_MIN = 300000;
 
 //firebase
 export const CACHED_CONTAINER = "cachedData";

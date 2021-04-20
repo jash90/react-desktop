@@ -1,21 +1,17 @@
 import { CryptoCurrencyModel, CurrencyModel, DefaultCurrencyModel, ETFModel, StockMarketModel } from "../../models";
 import axios from 'axios';
 import { FirebaseService } from "../firebase";
-import { CRYPTOCURRENCIES_CONTAINER, CRYPTO_CURRENCY_URL, CURRENCIES_CONTAINER, CURRENCY_URL, ETF_CONTAINER, ETF_URL, MARKET_STOCK_URL, REFRESH_TIME, STOCK_MARKET_CONTAINER } from "../../utils/Const";
+import { CRYPTOCURRENCIES_CONTAINER, CRYPTO_CURRENCY_URL, CURRENCIES_CONTAINER, CURRENCY_URL, ETF_CONTAINER, ETF_URL, MARKET_STOCK_URL, REFRESH_TIME_5_MIN, STOCK_MARKET_CONTAINER, REFRESH_TIME_60_MIN } from '../../utils/Const';
 import moment from "moment";
 import { formatPrice } from "../../utils/Functions";
 
 export class HttpService {
-    public static async getCryptoCurrenciesPrices(cryptocurrenciesList: CryptoCurrencyModel[]) {
-        return await HttpService.getPrices(CRYPTOCURRENCIES_CONTAINER, CRYPTO_CURRENCY_URL, HttpService.filterCryptoCurrencies, cryptocurrenciesList);
-    }
-
     public static async getCurrenciesPrices(currenciesList: DefaultCurrencyModel[]) {
         let data: any = { data: [], sendDate: Date.now() };
         try {
             let lastData = await FirebaseService.downloadLatestData(CURRENCIES_CONTAINER);
 
-            if (!lastData.sendDate || Date.now() - lastData.sendDate > REFRESH_TIME) {
+            if (!lastData.sendDate || Date.now() - lastData.sendDate > REFRESH_TIME_5_MIN) {
 
                 const response = await axios.get(`${HttpService.generateCurrencyURL()}`);
 
@@ -52,21 +48,24 @@ export class HttpService {
         return data;
     }
 
+    public static async getCryptoCurrenciesPrices(cryptocurrenciesList: CryptoCurrencyModel[]) {
+        return await HttpService.getPrices(CRYPTOCURRENCIES_CONTAINER, CRYPTO_CURRENCY_URL, HttpService.filterCryptoCurrencies, cryptocurrenciesList, REFRESH_TIME_5_MIN);
+    }
 
     public static async getStockMarketPrices(stockMarketList: StockMarketModel[]) {
-        return await HttpService.getPrices(STOCK_MARKET_CONTAINER, `${MARKET_STOCK_URL}?apikey=${process.env.REACT_APP_MARKET_STOCK_API_KEY}`, HttpService.filterStockMarket, stockMarketList, HttpService.formatStockMarket);
+        return await HttpService.getPrices(STOCK_MARKET_CONTAINER, `${MARKET_STOCK_URL}?apikey=${process.env.REACT_APP_MARKET_STOCK_API_KEY}`, HttpService.filterStockMarket, stockMarketList, REFRESH_TIME_60_MIN, HttpService.formatStockMarket);
     }
 
     public static async getETFPrices(etfList: ETFModel[]) {
         return await HttpService.getPrices(ETF_CONTAINER, `${ETF_URL}?apikey=${process.env.REACT_APP_MARKET_STOCK_API_KEY}`, HttpService.filterETFMarket, etfList);
     }
 
-    public static async getPrices(firestoreContainer: string, url: string, filterFunction: any, filterArray: any[], formatResponse?: any) {
+    public static async getPrices(firestoreContainer: string, url: string, filterFunction: any, filterArray: any[], refreshTime: number = REFRESH_TIME_60_MIN, formatResponse?: any) {
         let data: any = { data: [], sendDate: Date.now() };
         try {
             let lastData = await FirebaseService.downloadLatestData(firestoreContainer);
 
-            if (!lastData.sendDate || Date.now() - lastData.sendDate > REFRESH_TIME) {
+            if (!lastData.sendDate || Date.now() - lastData.sendDate > refreshTime) {
 
                 const response = await axios.get(`${url}`);
 
