@@ -9,11 +9,11 @@ export interface DefaultCurrencyModel {
 }
 
 export interface CryptoCurrencyModel {
-    priceChange?: string;
-    priceChangePercent?: string;
-    highPrice?: string;
-    lowPrice?: string;
-    lastPrice?: string;
+    priceChange?: number;
+    priceChangePercent?: number;
+    highPrice?: number;
+    lowPrice?: number;
+    lastPrice?: number;
     symbol: string;
 }
 

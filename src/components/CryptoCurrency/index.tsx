@@ -10,7 +10,7 @@ import { EmptyComponent } from '../common/EmptyComponent';
 export default class CryptoCurrency extends Component<{}, { cryptoRates: CryptoCurrencyModel[], sendDate: number }> {
 
     state = {
-        cryptoRates: [{ symbol: "BTC", lastPrice: "0" }, { symbol: "ETH", lastPrice: "0" }, { symbol: "XLM", lastPrice: "0" }, { symbol: "DOT", lastPrice: "0" }, { symbol: "REEF", lastPrice: "0" }, { symbol: "AKRO", lastPrice: "0" }, { symbol: "DOGE", lastPrice: "0" }, { symbol: "LUNA", lastPrice: "0" }, { symbol: "CELR", lastPrice: "0" }],
+        cryptoRates: [{ symbol: "BTC", lastPrice: 0 }, { symbol: "ETH", lastPrice: 0 }, { symbol: "XLM", lastPrice: 0 }, { symbol: "DOT", lastPrice: 0 }, { symbol: "REEF", lastPrice: 0 }, { symbol: "AKRO", lastPrice: 0 }, { symbol: "DOGE", lastPrice: 0 }, { symbol: "LUNA", lastPrice: 0 }, { symbol: "CELR", lastPrice: 0 }],
         sendDate: Date.now(),
     }
 
@@ -26,7 +26,7 @@ export default class CryptoCurrency extends Component<{}, { cryptoRates: CryptoC
                 <Row>
                     {this.state.cryptoRates.length > 0 && this.state.cryptoRates.map((cryptoRate: CryptoCurrencyModel) => {
                         return (
-                            <PriceItem symbol={cryptoRate.symbol} price={Number(cryptoRate.lastPrice)} dayLow={Number(cryptoRate.lowPrice)} dayHigh={Number(cryptoRate.highPrice)} changesPercentage={Number(cryptoRate.priceChangePercent)} key={cryptoRate.symbol} />
+                            <PriceItem symbol={cryptoRate.symbol} price={cryptoRate.lastPrice} dayLow={cryptoRate.lowPrice} dayHigh={cryptoRate.highPrice} changesPercentage={cryptoRate.priceChangePercent} key={cryptoRate.symbol} />
                         )
                     })}
                     {this.state.cryptoRates.length === 0 && <EmptyComponent />}

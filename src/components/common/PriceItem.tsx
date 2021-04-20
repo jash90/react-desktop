@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 interface Props {
     symbol: string;
-    price: number;
+    price?: number;
     name?: string;
     etfName?: string;
     changesPercentage?: number;
@@ -34,11 +34,11 @@ export const PriceItem: React.FC<Props> = ({ symbol, price, name, etfName, chang
             {!!etfName && <ETFName >{etfName}</ETFName>}
             <Symbol>{symbol}</Symbol>
             <span>{formatPrice(Number(price))}</span>
-            {typeof changesPercentage === "number" && <Percentage color={changesPercentage > 0 ? "green" : changesPercentage === 0 ? "yellow" : "red"} >{Number(changesPercentage).toFixed(2) + "%"}</Percentage>}
-            {typeof dayLow === "number" && <Percentage>{`DayLow: ${Number(dayLow).toFixed(2)}`}</Percentage>}
-            {typeof dayHigh === "number" && <Percentage>{`DayHigh: ${Number(dayHigh).toFixed(2)}`}</Percentage>}
-            {typeof yearLow === "number" && <Percentage>{`YearLow: ${Number(yearLow).toFixed(2)}`}</Percentage>}
-            {typeof yearHigh === "number" && <Percentage>{`YearHigh: ${Number(yearHigh).toFixed(2)}`}</Percentage>}
+            {typeof changesPercentage !== "undefined" && <Percentage color={Number(changesPercentage) > 0 ? "green" : changesPercentage === 0 ? "yellow" : "red"} >{Number(changesPercentage).toFixed(2) + "%"}</Percentage>}
+            {typeof dayLow !== "undefined" && <Percentage>{`DayLow: ${formatPrice(Number(dayLow))}`}</Percentage>}
+            {typeof dayHigh !== "undefined" && <Percentage>{`DayHigh: ${formatPrice(Number(dayHigh))}`}</Percentage>}
+            {typeof yearLow !== "undefined" && <Percentage>{`YearLow: ${formatPrice(Number(yearLow))}`}</Percentage>}
+            {typeof yearHigh !== "undefined" && <Percentage>{`YearHigh: ${formatPrice(Number(yearHigh))}`}</Percentage>}
 
         </Col>
 
