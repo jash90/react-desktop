@@ -8,6 +8,15 @@ export interface DefaultCurrencyModel {
     symbol: string;
 }
 
+export interface CryptoCurrencyModel {
+    priceChange?: string;
+    priceChangePercent?: string;
+    highPrice?: string;
+    lowPrice?: string;
+    lastPrice?: string;
+    symbol: string;
+}
+
 export interface StockMarketModel extends DefaultCurrencyModel {
     name: string;
 }

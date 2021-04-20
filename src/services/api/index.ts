@@ -1,10 +1,10 @@
-import { CurrencyModel, DefaultCurrencyModel, ETFModel, StockMarketModel } from "../../models";
+import { CryptoCurrencyModel, CurrencyModel, DefaultCurrencyModel, ETFModel, StockMarketModel } from "../../models";
 import axios from 'axios';
 import { FirebaseService } from "../firebase";
 import { CRYPTOCURRENCIES_CONTAINER, CRYPTO_CURRENCY_URL, CURRENCIES_CONTAINER, CURRENCY_URL, ETF_CONTAINER, ETF_URL, MARKET_STOCK_URL, REFRESH_TIME, STOCK_MARKET_CONTAINER } from "../../utils/Const";
 
 export class HttpService {
-    public static async getCryptoCurrenciesPrices(cryptocurrenciesList: DefaultCurrencyModel[]) {
+    public static async getCryptoCurrenciesPrices(cryptocurrenciesList: CryptoCurrencyModel[]) {
         return await HttpService.getPrices(CRYPTOCURRENCIES_CONTAINER, CRYPTO_CURRENCY_URL, HttpService.filterCryptoCurrencies, cryptocurrenciesList);
     }
 
@@ -42,6 +42,8 @@ export class HttpService {
                 data = lastData;
             }
 
+            console.log({ data: data.data })
+
             data.data = filterFunction(data.data, filterArray);
 
         } catch (error) {
@@ -51,10 +53,12 @@ export class HttpService {
         return data;
     }
 
-    private static filterCryptoCurrencies(cryptocurrenciesList: DefaultCurrencyModel[], filterCryptocurrenciesList: DefaultCurrencyModel[]) {
-        return cryptocurrenciesList.map((crypto: DefaultCurrencyModel) => {
-            return { symbol: String(crypto.symbol).replace("USDT", ""), price: crypto.price }
-        }).filter((crypto: DefaultCurrencyModel) => !!filterCryptocurrenciesList.find(c => c.symbol === crypto.symbol))
+    private static filterCryptoCurrencies(cryptocurrenciesList: CryptoCurrencyModel[], filterCryptocurrenciesList: CryptoCurrencyModel[]) {
+        return cryptocurrenciesList.map((crypto: CryptoCurrencyModel) => {
+            return { ...crypto, symbol: String(crypto.symbol).replace("USDT", ""),  }
+        }).filter((crypto: CryptoCurrencyModel) => {
+            return !!filterCryptocurrenciesList.find((c: any) => c.symbol === crypto.symbol)
+        })
     }
 
     private static filterCurrencies(currencies: DefaultCurrencyModel[], filterCurrencies: DefaultCurrencyModel[]) {
@@ -69,7 +73,7 @@ export class HttpService {
 
     private static filterETFMarket(stockMarket: ETFModel[], filterStockMarket: ETFModel[]) {
         return stockMarket.filter((t: ETFModel) => !!filterStockMarket.find(ticker => ticker.symbol === t.symbol)).map((ticker: ETFModel) => {
-            const {name , ...etf} =ticker;
+            const { name, ...etf } = ticker;
             return { name: filterStockMarket.find(t => t.symbol === ticker.symbol)?.name, ...etf };
         })
     }
