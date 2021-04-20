@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { Col } from './StyledComponent';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import styled from 'styled-components';
+import { formatPrice as format } from '../../utils/Functions';
 
 interface Props {
     symbol: string;
@@ -13,16 +14,15 @@ interface Props {
     dayLow?: number;
     yearHigh?: number;
     yearLow?: number;
+    day?: number;
+    month?: number;
+    year?: number;
 }
 
-export const PriceItem: React.FC<Props> = ({ symbol, price, name, etfName, changesPercentage, dayHigh, dayLow, yearHigh, yearLow }) => {
+export const PriceItem: React.FC<Props> = ({ symbol, price, name, etfName, changesPercentage, dayHigh, dayLow, yearHigh, yearLow, day, month, year }) => {
 
     const formatPrice = useCallback((price: number) => {
-        if (price > 100)
-            return price.toFixed(0);
-        if (price > 1)
-            return price.toFixed(2);
-        return price.toFixed(3);
+        return format(price)
     }, []);
 
     return (
@@ -34,11 +34,14 @@ export const PriceItem: React.FC<Props> = ({ symbol, price, name, etfName, chang
             {!!etfName && <ETFName >{etfName}</ETFName>}
             <Symbol>{symbol}</Symbol>
             <span>{formatPrice(Number(price))}</span>
-            {typeof changesPercentage !== "undefined" && <Percentage color={Number(changesPercentage) > 0 ? "green" : changesPercentage === 0 ? "yellow" : "red"} >{Number(changesPercentage).toFixed(2) + "%"}</Percentage>}
+            {typeof changesPercentage !== "undefined" && <Percentage color={Number(changesPercentage) > 0 ? "green" : changesPercentage === 0 ? "yellow" : "red"} >{formatPrice(Number(changesPercentage)) + "%"}</Percentage>}
             {typeof dayLow !== "undefined" && <Percentage>{`DayLow: ${formatPrice(Number(dayLow))}`}</Percentage>}
             {typeof dayHigh !== "undefined" && <Percentage>{`DayHigh: ${formatPrice(Number(dayHigh))}`}</Percentage>}
             {typeof yearLow !== "undefined" && <Percentage>{`YearLow: ${formatPrice(Number(yearLow))}`}</Percentage>}
             {typeof yearHigh !== "undefined" && <Percentage>{`YearHigh: ${formatPrice(Number(yearHigh))}`}</Percentage>}
+            {typeof day !== "undefined" && <Percentage>{`Day: ${formatPrice(Number(day))}`}</Percentage>}
+            {typeof month !== "undefined" && <Percentage>{`Month: ${formatPrice(Number(month))}`}</Percentage>}
+            {typeof year !== "undefined" && <Percentage>{`Year: ${formatPrice(Number(year))}`}</Percentage>}
 
         </Col>
 

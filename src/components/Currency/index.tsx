@@ -10,7 +10,7 @@ import { EmptyComponent } from '../common/EmptyComponent';
 export default class Currency extends Component<{}, { rates: DefaultCurrencyModel[], sendDate: number }> {
 
     state = {
-        rates: [{ symbol: "USD", price: 0 }, { symbol: "EUR", price: 0 }, { symbol: "CHF", price: 0 }, { symbol: "GBP", price: 0 }, { symbol: "JPY", price: 0 }, { symbol: "CNY", price: 0 },],
+        rates: [{ symbol: "USD", price: 0 }, { symbol: "EUR", price: 0 }, { symbol: "CHF", price: 0 }, { symbol: "GBP", price: 0 }, { symbol: "JPY", price: 0 }, { symbol: "CNY", price: 0 }, { symbol: "RUB", price: 0 }],
         sendDate: Date.now()
     }
 
