@@ -42,8 +42,6 @@ export class HttpService {
                 data = lastData;
             }
 
-            console.log({ data: data.data })
-
             data.data = filterFunction(data.data, filterArray);
 
         } catch (error) {

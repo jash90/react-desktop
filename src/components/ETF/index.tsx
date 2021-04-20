@@ -293,8 +293,6 @@ export default class ETF extends Component<{}, { rates: ETFModel[], sendDate: nu
 
     async componentDidMount() {
         const rates = await HttpService.getETFPrices(this.state.rates);
-        console.log({ data: rates.data })
-
         this.setState({ rates: rates.data, sendDate: rates.sendDate });
     }
 
