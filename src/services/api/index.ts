@@ -24,8 +24,6 @@ export class HttpService {
                 const year = await HttpService.getCurrencyWithDate(moment().add(-1, "year").toISOString());
 
                 data.data = data.data.map((currency: DefaultCurrencyModel) => {
-                    console.log({ ...currency, day: day.find(c => c.symbol === currency.symbol)?.price, month: month.find(c => c.symbol === currency.symbol)?.price, year: year.find(c => c.symbol === currency.symbol)?.price });
-
                     const dayPrice = day.find(c => c.symbol === currency.symbol)?.price;
                     const monthPrice = month.find(c => c.symbol === currency.symbol)?.price;
                     const yearPrice = year.find(c => c.symbol === currency.symbol)?.price;
@@ -42,7 +40,7 @@ export class HttpService {
             data.data = HttpService.filterCurrencies(data.data, currenciesList);
 
         } catch (error) {
-            console.log({ error: error, CURRENCIES_CONTAINER })
+            console.log({ CURRENCIES_CONTAINER })
         }
 
         return data;
