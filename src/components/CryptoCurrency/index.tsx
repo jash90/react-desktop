@@ -44,6 +44,9 @@ export default class CryptoCurrency extends Component<{}, { cryptoRates: CryptoC
             { symbol: "WAVES", lastPrice: 0 },
             { symbol: "SUSHI", lastPrice: 0 },
             { symbol: "SC", lastPrice: 0 },
+            {symbol: "FET", lastPrice: 0 },
+            {symbol: "BTM", lastPrice: 0 },
+            {symbol: "KAVA", lastPrice: 0 },
         ],
         sendDate: Date.now(),
     };
