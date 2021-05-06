@@ -25,7 +25,7 @@ export default class Clock extends Component<{}, { time: any }> {
             <Container>
                 <Time time={this.state.time} />
                 <Row>
-                    {this.timezones.map((timezone: any) => <TimezoneItem time={this.state.time} timezone={timezone} key={timezone}/>)}
+                    {this.timezones.map((timezone: any) => <TimezoneItem time={this.state.time} timezone={timezone} key={timezone} />)}
                 </Row>
             </Container>
         )

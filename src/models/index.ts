@@ -6,10 +6,10 @@ export interface CurrencyModel {
 export interface DefaultCurrencyModel {
     price: number;
     symbol: string;
-    day?:number;
-    month?:number;
-    year?:number;
-    changesPercentage?:number;
+    day?: number;
+    month?: number;
+    year?: number;
+    changesPercentage?: number;
 }
 
 export interface CryptoCurrencyModel {
