@@ -7,22 +7,22 @@ import { HttpService } from '../../services/api';
 import Time from '../WorldClock/Time';
 import { EmptyComponent } from '../common/EmptyComponent';
 
-export default class StockMarket extends Component<{}, { tickers: StockMarketModel[], sendData: number }> {
+export default class StockMarket extends Component<{}, { tickers: StockMarketModel[], sendDate: number }> {
 
     state = {
         tickers: [{ symbol: "AAPL", price: 0, name: "Apple" }, { symbol: "GOOGL", price: 0, name: "Google" }, { symbol: "TSLA", price: 0, name: "Tesla" }, { symbol: "MSFT", price: 0, name: "Microsoft" }, { symbol: "GME", price: 0, name: "GameStop" }, { symbol: "COIN", name: "Coinbase", price: 0 }],
-        sendData: Date.now()
+        sendDate: Date.now()
     }
 
     async componentDidMount() {
         const tickers = await HttpService.getStockMarketPrices(this.state.tickers);
-        this.setState({ tickers: tickers.data, sendData: tickers.sendData });
+        this.setState({ tickers: tickers.data, sendDate: tickers.sendDate });
     }
 
     render() {
         return (
             <Container>
-                <Time time={moment(this.state.sendData)} formatTime={'dddd HH:mm'} />
+                <Time time={moment(this.state.sendDate)} formatTime={'dddd HH:mm'} />
                 <Row>
                     {this.state.tickers.length > 0 && this.state.tickers.map((currency: StockMarketModel) => {
                         return (
