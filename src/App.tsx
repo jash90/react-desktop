@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from "styled-components";
-import { EmptyItem } from './components/common/StyledComponent';
 import CryptoCurrency from './components/CryptoCurrency';
 import Currency from './components/Currency/index';
 import StockMarket from './components/StockMarket';
