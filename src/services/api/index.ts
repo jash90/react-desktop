@@ -143,7 +143,7 @@ export class HttpService {
             } catch (error) {
 
             }
-            date = moment(date).add(1, "day").toISOString();
+            date = moment(date).add(-1, "day").toISOString();
         }
 
         return HttpService.formatResponseCurrencies(data);
