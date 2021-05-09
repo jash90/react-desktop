@@ -16,25 +16,25 @@ const EmptyItem = styled.div`
 const Container = styled(EmptyItem)`
 display:flex;
 flex-direction:column;
-flex-wrap:wrap;
 padding:16px;
 justify-content:space-evenly;
 `;
 
-const Col = styled.div`
-display:flex;
-flex-direction: column;
-justify-content:center;
-align-items:center;
-max-width:250px;
-min-height:100px;
-margin:10px;
-`
+const Card = styled.div<{ horizontal?: boolean }>(({ horizontal }) => ({
+    display: "flex",
+    flexDirection: horizontal ? "row" : "column",
+    justifyContent: horizontal ? "space-evenly" : "center",
+    alignItems: "center",
+    height: horizontal ? 50 : 100,
+    padding: 10,
+}));
+
 const Row = styled.div`
 display:flex;
-flex-direction: Row;
-flex-wrap:wrap;
+flex-direction: column;
+justify-content:flex-start;
+flex:1
 `
 
 
-export { EmptyItem, Container, Col, Row };
+export { EmptyItem, Container, Card as Col, Row };

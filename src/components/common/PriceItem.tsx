@@ -27,7 +27,7 @@ export const PriceItem: React.FC<Props> = ({ symbol, price, name, etfName, chang
 
     return (
 
-        <Col>
+        <Col horizontal>
             {Number(price) === 0 && <CircularProgress size={30} />}
             {Number(price) > 0 && !name && <img src={`https://cryptoicon-api.vercel.app/api/icon/${String(symbol).toLowerCase()}`} alt="cryptocurrencies-symbol" width="30" height="30" />}
             {Number(price) > 0 && name && <img src={`https://logo.clearbit.com/${String(name).toLowerCase()}.com`} alt="stock-market-symbol" width="30" height="30" />}

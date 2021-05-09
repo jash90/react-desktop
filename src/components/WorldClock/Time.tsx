@@ -22,7 +22,7 @@ export default class Time extends Component<TimeProps> {
 
 const ContainerDateTime = styled.div`
 display:flex;
-flex:1;
+height:30px;
 justify-content:flex-end;
 flex-direction:row;
 `
