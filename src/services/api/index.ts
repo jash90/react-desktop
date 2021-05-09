@@ -65,7 +65,7 @@ export class HttpService {
 
             if (!lastData.sendDate || Date.now() - lastData.sendDate > refreshTime) {
 
-                const response = await axios.get(`${url}`);
+                const response = await axios.get(url);
 
                 if (formatResponse) {
                     data.data = formatResponse(response.data);
