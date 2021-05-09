@@ -53,7 +53,6 @@ export default class CryptoCurrency extends Component<{}, { cryptoRates: CryptoC
 
     async componentDidMount() {
         const cryptoRates = await HttpService.getCryptoCurrenciesPrices(this.state.cryptoRates);
-        console.log(cryptoRates);
         this.setState({ cryptoRates: cryptoRates.data, sendDate: cryptoRates.sendDate });
     }
 
