@@ -15,9 +15,6 @@ function App() {
       <Currency />
       <StockMarket />
       <ETF />
-      <EmptyItem />
-      <EmptyItem />
-      <EmptyItem />
     </Container>
   );
 }

@@ -28,3 +28,9 @@ export interface StockMarketModel extends DefaultCurrencyModel {
 export interface ETFModel extends StockMarketModel {
     changesPercentage?: number;
 }
+
+export interface FirebaseDataModel {
+    data: any[];
+    sendDate: number;
+    nextPage: boolean;
+}

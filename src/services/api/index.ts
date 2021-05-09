@@ -1,4 +1,4 @@
-import { CryptoCurrencyModel, CurrencyModel, DefaultCurrencyModel, ETFModel, StockMarketModel } from "../../models";
+import { CryptoCurrencyModel, CurrencyModel, DefaultCurrencyModel, ETFModel, FirebaseDataModel, StockMarketModel } from "../../models";
 import axios from 'axios';
 import { FirebaseService } from "../firebase";
 import { CRYPTOCURRENCIES_CONTAINER, CRYPTO_CURRENCY_URL, CURRENCIES_CONTAINER, CURRENCY_URL, ETF_CONTAINER, ETF_URL, MARKET_STOCK_URL, REFRESH_TIME_5_MIN, STOCK_MARKET_CONTAINER, REFRESH_TIME_60_MIN } from '../../utils/Const';
@@ -7,7 +7,7 @@ import { formatPrice } from "../../utils/Functions";
 
 export class HttpService {
     public static async getCurrenciesPrices(currenciesList: DefaultCurrencyModel[]) {
-        let data: any = { data: [], sendDate: Date.now() };
+        let data: FirebaseDataModel = { data: [], sendDate: Date.now(), nextPage: false };
         try {
             let lastData = await FirebaseService.downloadLatestData(CURRENCIES_CONTAINER);
 
@@ -59,7 +59,7 @@ export class HttpService {
     }
 
     public static async getPrices(firestoreContainer: string, url: string, filterFunction: any, filterArray: any[], refreshTime: number = REFRESH_TIME_60_MIN, formatResponse?: any) {
-        let data: any = { data: [], sendDate: Date.now() };
+        let data: FirebaseDataModel = { data: [], sendDate: Date.now(), nextPage: false };
         try {
             let lastData = await FirebaseService.downloadLatestData(firestoreContainer);
 
@@ -120,7 +120,7 @@ export class HttpService {
     }
 
     private static formatStockMarket(data: any): StockMarketModel[] {
-        return data.filter((item: any, index: number) => index < 10000);
+        return data;
     }
 
     private static generateCurrencyURL(date?: string): string {
