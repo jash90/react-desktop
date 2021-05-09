@@ -30,7 +30,7 @@ export class FirebaseService {
     }
 
     public static async cacheData(documentId: string, firebaseData: FirebaseDataModel) {
-        let data = Object.assign({}, firebaseData).data;
+        let data = [...firebaseData.data];
         let i = 0;
         while (data.length) {
             let dataToSend = data.splice(0, 1000);
