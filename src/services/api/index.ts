@@ -13,7 +13,7 @@ export class HttpService {
 
             if (!lastData.sendDate || Date.now() - lastData.sendDate > REFRESH_TIME_5_MIN) {
 
-                const response = await axios.get(`${HttpService.generateCurrencyURL()}`);
+                const response = await axios.get(HttpService.generateCurrencyURL());
 
                 data.data = HttpService.formatResponseCurrencies(response.data);
 
